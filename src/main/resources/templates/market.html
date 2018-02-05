@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Market</title>
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Latest compiled and minified Locales -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"/>
+
+    <script src="http://30.38.59.209:8080/static/js/market.js"/>
+
+</head>
+<body>
+<div>
+    <div style="float: left; width: 30%; height: 300px;">
+        <table id="table-javascript"  class="table table-striped">
+            <thead>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">MarketName</div></th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">bid</div></th>
+            <th style="text-align: center; vertical-align: middle;">
+                <div class="th-inner ">ask</div></th>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+    <div style="float: right; width: 30%; height: 300px;" id="window">没有窗口期
+    </div>
+    <div id="bchbtc"></div>
+</div>
+</body>
+</html>

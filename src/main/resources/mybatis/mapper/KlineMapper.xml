@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bitcoin.infrastructure.mapper.KlineMapper" >
+  <resultMap id="BaseResultMap" type="bitcoin.infrastructure.model.Kline" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="datatime" property="datatime" jdbcType="TIMESTAMP" />
+    <result column="open_price" property="openPrice" jdbcType="DOUBLE" />
+    <result column="high_price" property="highPrice" jdbcType="DOUBLE" />
+    <result column="low_price" property="lowPrice" jdbcType="DOUBLE" />
+    <result column="close_price" property="closePrice" jdbcType="DOUBLE" />
+    <result column="volume" property="volume" jdbcType="DOUBLE" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, gmt_create, datatime, open_price, high_price, low_price, close_price, volume, 
+    source
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bitcoin.infrastructure.model.KlineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from kline
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from kline
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from kline
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="bitcoin.infrastructure.model.KlineExample" >
+    delete from kline
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="bitcoin.infrastructure.model.Kline" >
+    insert into kline (id, gmt_create, datatime, 
+      open_price, high_price, low_price, 
+      close_price, volume, source
+      )
+    values (#{id,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{datatime,jdbcType=TIMESTAMP}, 
+      #{openPrice,jdbcType=DOUBLE}, #{highPrice,jdbcType=DOUBLE}, #{lowPrice,jdbcType=DOUBLE}, 
+      #{closePrice,jdbcType=DOUBLE}, #{volume,jdbcType=DOUBLE}, #{source,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bitcoin.infrastructure.model.Kline" >
+    insert into kline
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="datatime != null" >
+        datatime,
+      </if>
+      <if test="openPrice != null" >
+        open_price,
+      </if>
+      <if test="highPrice != null" >
+        high_price,
+      </if>
+      <if test="lowPrice != null" >
+        low_price,
+      </if>
+      <if test="closePrice != null" >
+        close_price,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datatime != null" >
+        #{datatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openPrice != null" >
+        #{openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="highPrice != null" >
+        #{highPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="lowPrice != null" >
+        #{lowPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="closePrice != null" >
+        #{closePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="bitcoin.infrastructure.model.KlineExample" resultType="java.lang.Integer" >
+    select count(*) from kline
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update kline
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.gmtCreate != null" >
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.datatime != null" >
+        datatime = #{record.datatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.openPrice != null" >
+        open_price = #{record.openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.highPrice != null" >
+        high_price = #{record.highPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lowPrice != null" >
+        low_price = #{record.lowPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.closePrice != null" >
+        close_price = #{record.closePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.volume != null" >
+        volume = #{record.volume,jdbcType=DOUBLE},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update kline
+    set id = #{record.id,jdbcType=BIGINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      datatime = #{record.datatime,jdbcType=TIMESTAMP},
+      open_price = #{record.openPrice,jdbcType=DOUBLE},
+      high_price = #{record.highPrice,jdbcType=DOUBLE},
+      low_price = #{record.lowPrice,jdbcType=DOUBLE},
+      close_price = #{record.closePrice,jdbcType=DOUBLE},
+      volume = #{record.volume,jdbcType=DOUBLE},
+      source = #{record.source,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="bitcoin.infrastructure.model.Kline" >
+    update kline
+    <set >
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datatime != null" >
+        datatime = #{datatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openPrice != null" >
+        open_price = #{openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="highPrice != null" >
+        high_price = #{highPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="lowPrice != null" >
+        low_price = #{lowPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="closePrice != null" >
+        close_price = #{closePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bitcoin.infrastructure.model.Kline" >
+    update kline
+    set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      datatime = #{datatime,jdbcType=TIMESTAMP},
+      open_price = #{openPrice,jdbcType=DOUBLE},
+      high_price = #{highPrice,jdbcType=DOUBLE},
+      low_price = #{lowPrice,jdbcType=DOUBLE},
+      close_price = #{closePrice,jdbcType=DOUBLE},
+      volume = #{volume,jdbcType=DOUBLE},
+      source = #{source,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
