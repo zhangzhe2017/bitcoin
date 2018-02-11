@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,42 +26,22 @@ public class FileUtils {
             filePath.mkdirs();
         }
 
-        File file = new File(FILEPATH + File.separator + fileName + ".xml");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                System.out.println("createNewFile，出现异常:");
-                e.printStackTrace();
-            }
-        } else {
-            eJSON = (JSONObject) read2JSON(fileName);
-        }
-
+        FileWriter fw = null;
         try {
-            writer = new BufferedWriter(new FileWriter(file));
-
-            if (eJSON==null) {
-                writer.write(json.toString());
-            } else {
-                Object[] array = ((JSONObject) json).keySet().toArray();
-                for(int i=0;i<array.length;i++){
-                    eJSON.put(array[i].toString(), ((JSONObject) json).get(array[i].toString()));
-                }
-
-                writer.write(eJSON.toString());
-            }
-
+            File f=new File(FILEPATH + File.separator + fileName + ".xml");
+            fw = new FileWriter(f, true);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(json);
+        pw.flush();
+        try {
+            fw.flush();
+            pw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -86,19 +67,6 @@ public class FileUtils {
         }
 
         return (JSONObject) JSON.parse(laststr);
-    }
-
-    // 通过key值获取文件中的value
-    public static Object getValue(String fileName, String key) {
-        JSONObject eJSON = null;
-        eJSON = (JSONObject) read2JSON(fileName);
-        if (null != eJSON && eJSON.containsKey(key)) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> values = JSON.parseObject(eJSON.toString(), Map.class);
-            return values.get(key);
-        } else {
-            return null;
-        }
     }
 
 }
